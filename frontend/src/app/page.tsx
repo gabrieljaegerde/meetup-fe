@@ -1,69 +1,55 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
-// New component
 import { useInkathon } from '@scio-labs/use-inkathon'
-import { toast } from 'react-hot-toast'
 
 import { ConnectButton } from '@/components/web3/connect-button'
-import { CreateMeetup } from '@/components/web3/create-meetup'
-import { Home } from '@/components/web3/home'
-import { MeetupCalendar } from '@/components/web3/meetup-calendar'
-// New component
-import { MeetupDetails } from '@/components/web3/meetup-details'
-import { MeetupMap } from '@/components/web3/meetup-map'
-import { UserLocation } from '@/components/web3/user-location'
 
-export default function HomePage() {
-  const { error } = useInkathon()
-  const [currentView, setCurrentView] = useState<'home' | 'create' | { details: number }>('home')
-
-  useEffect(() => {
-    if (!error) return
-    toast.error(error.message)
-  }, [error])
-
-  const handleViewChange = (view: 'home' | 'create' | { details: number }) => {
-    setCurrentView(view)
-  }
+export default function LandingPage() {
+  const { activeAccount } = useInkathon()
 
   return (
-    <div className="container relative flex min-h-screen flex-col p-4">
-      {/* Top Bar */}
-      <div className="mb-4 flex w-full items-center justify-between">
-        <UserLocation />
-        <div className="flex gap-4">
-          <button
-            onClick={() => handleViewChange('create')}
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-600"
-          >
-            Create Meetup
-          </button>
-          <ConnectButton />
-        </div>
+    <div className="relative flex min-h-screen flex-col">
+      {/* Full-screen Map Background */}
+      <div className="absolute inset-0 z-0">
+        {/* <MeetupMap onViewChange={() => { }} /> No details view here */}
       </div>
 
-      {/* Main Content Layout */}
-      <div className="flex w-full flex-grow gap-6">
-        {/* Left - World Map with Meetups */}
-        <div className="min-w-[40%] flex-1">
-          <MeetupMap onViewChange={handleViewChange} />
-        </div>
+      {/* Overlay */}
+      <div className="relative z-10 flex min-h-screen flex-col bg-black/50">
+        {/* Header */}
+        <header className="flex items-center justify-between p-4">
+          <h1 className="font-mono text-2xl font-bold text-white">MeetupChain</h1>
+          <ConnectButton />
+        </header>
 
-        {/* Center - Dynamic View */}
-        <div className="flex max-w-[40%] flex-1 flex-col items-center">
-          {currentView === 'home' && <Home onViewChange={handleViewChange} />}
-          {currentView === 'create' && <CreateMeetup onViewChange={handleViewChange} />}
-          {typeof currentView === 'object' && 'details' in currentView && (
-            <MeetupDetails meetupId={currentView.details} onViewChange={handleViewChange} />
-          )}
-        </div>
+        {/* Hero */}
+        <main className="flex flex-1 flex-col items-center justify-center text-center text-white">
+          <h2 className="mb-4 font-mono text-5xl font-bold">
+            Discover or Create Blockchain Meetups
+          </h2>
+          <p className="mb-8 text-xl">Connect with communities worldwide</p>
+          <div className="flex gap-4">
+            <Link
+              href="/app"
+              className="rounded-lg bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
+            >
+              Explore Meetups
+            </Link>
+            <Link
+              href="/create"
+              className="rounded-lg bg-green-600 px-6 py-3 font-bold text-white hover:bg-green-700"
+            >
+              Create a Meetup
+            </Link>
+          </div>
+        </main>
 
-        {/* Right - Calendar */}
-        <div className="min-w-[30%] flex-1">
-          <MeetupCalendar onViewChange={handleViewChange} />
-        </div>
+        {/* Footer */}
+        <footer className="p-4 text-center text-sm text-gray-300">
+          © 2025 MeetupChain. Powered by xAI & Polkadot.
+        </footer>
       </div>
     </div>
   )

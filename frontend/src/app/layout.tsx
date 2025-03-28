@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'ink!athon Boilerplate',
+  title: 'Meetup',
   description: 'Full-Stack DApp Boilerplate for ink! Smart Contracts',
   metadataBase: new URL(env.url),
   robots: env.isProduction ? 'all' : 'noindex,nofollow',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en',
     url: env.url,
-    siteName: 'ink!athon Boilerplate',
+    siteName: 'Meetup',
     images: [
       {
         url: '/images/inkathon-og-banner.jpg',

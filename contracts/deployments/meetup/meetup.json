@@ -1,2039 +1,2073 @@
 {
-    "source": {
-      "hash": "0x3f5cd62f4b0219f4bd69afae28612545773e2c6536e96029fb91ce6165375466",
-      "language": "ink! 5.1.1",
-      "compiler": "rustc 1.84.0-nightly",
-      "build_info": {
-        "build_mode": "Release",
-        "cargo_contract_version": "5.0.3",
-        "rust_toolchain": "nightly-aarch64-apple-darwin",
-        "wasm_opt_settings": {
-          "keep_debug_symbols": false,
-          "optimization_passes": "Z"
-        }
+  "source": {
+    "hash": "0x8a64a00f808688e6021039655cc74fa9e818f1e9b5aebe483ec2d056c02cb33c",
+    "language": "ink! 5.1.1",
+    "compiler": "rustc 1.84.0-nightly",
+    "build_info": {
+      "build_mode": "Debug",
+      "cargo_contract_version": "5.0.3",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
       }
-    },
-    "contract": {
-      "name": "meetup_dapp",
-      "version": "0.1.0",
-      "authors": [
-        "Gabriel Jaeger <your.email@example.com>"
-      ]
-    },
-    "image": null,
-    "spec": {
-      "constructors": [
-        {
-          "args": [],
-          "default": false,
-          "docs": [],
-          "label": "new",
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink_primitives",
-              "ConstructorResult"
-            ],
-            "type": 26
-          },
-          "selector": "0x9bae9d5e"
-        }
-      ],
-      "docs": [],
-      "environment": {
-        "accountId": {
-          "displayName": [
-            "AccountId"
-          ],
-          "type": 3
-        },
-        "balance": {
-          "displayName": [
-            "Balance"
-          ],
-          "type": 2
-        },
-        "blockNumber": {
-          "displayName": [
-            "BlockNumber"
-          ],
-          "type": 1
-        },
-        "chainExtension": {
-          "displayName": [
-            "ChainExtension"
-          ],
-          "type": 44
-        },
-        "hash": {
-          "displayName": [
-            "Hash"
-          ],
-          "type": 43
-        },
-        "maxEventTopics": 4,
-        "staticBufferSize": 16384,
-        "timestamp": {
-          "displayName": [
-            "Timestamp"
-          ],
-          "type": 0
-        }
-      },
-      "events": [
-        {
-          "args": [
-            {
-              "docs": [],
-              "indexed": true,
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "host",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "timestamp",
-              "type": {
-                "displayName": [
-                  "u64"
-                ],
-                "type": 0
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "title",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "description",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "location_type",
-              "type": {
-                "displayName": [
-                  "LocationType"
-                ],
-                "type": 11
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "location",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            }
-          ],
-          "docs": [],
-          "label": "MeetupCreated",
-          "module_path": "meetup_dapp::meetup_dapp",
-          "signature_topic": "0xb97f0b729f453030e76636bf540e0a2d183abb6c187022483d9bf60b6f717f47"
-        },
-        {
-          "args": [
-            {
-              "docs": [],
-              "indexed": true,
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "attendee",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            }
-          ],
-          "docs": [],
-          "label": "AttendeeRegistered",
-          "module_path": "meetup_dapp::meetup_dapp",
-          "signature_topic": "0x904f5245391091b78ce2dd5a665718c6d2de54c00011b8f72a310a3cb144f20e"
-        },
-        {
-          "args": [
-            {
-              "docs": [],
-              "indexed": true,
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "attendee",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            }
-          ],
-          "docs": [],
-          "label": "AttendeeUnregistered",
-          "module_path": "meetup_dapp::meetup_dapp",
-          "signature_topic": "0x53a5759d3dec6089079606b0d35507002c415920fcf0f25f0a1153aa2b1ec5b2"
-        },
-        {
-          "args": [
-            {
-              "docs": [],
-              "indexed": true,
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "docs": [],
-          "label": "MeetupCancelled",
-          "module_path": "meetup_dapp::meetup_dapp",
-          "signature_topic": "0x7f9ca43e17d025e8087ab7fe07328e2bca88d0bd8900c6c6f0143815bf31416e"
-        },
-        {
-          "args": [
-            {
-              "docs": [],
-              "indexed": true,
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "docs": [],
-              "indexed": false,
-              "label": "host_payout",
-              "type": {
-                "displayName": [
-                  "Balance"
-                ],
-                "type": 2
-              }
-            }
-          ],
-          "docs": [],
-          "label": "RevenueDistributed",
-          "module_path": "meetup_dapp::meetup_dapp",
-          "signature_topic": "0xe5d89457a6334e19ba1511cbc4725cd94c20d1cf828959b22df568e73891586c"
-        }
-      ],
-      "lang_error": {
-        "displayName": [
-          "ink",
-          "LangError"
-        ],
-        "type": 27
-      },
-      "messages": [
-        {
-          "args": [
-            {
-              "label": "title",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            },
-            {
-              "label": "description",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            },
-            {
-              "label": "location_type",
-              "type": {
-                "displayName": [
-                  "LocationType"
-                ],
-                "type": 11
-              }
-            },
-            {
-              "label": "location",
-              "type": {
-                "displayName": [
-                  "Vec"
-                ],
-                "type": 7
-              }
-            },
-            {
-              "label": "timestamp",
-              "type": {
-                "displayName": [
-                  "u64"
-                ],
-                "type": 0
-              }
-            },
-            {
-              "label": "max_attendees",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "label": "price",
-              "type": {
-                "displayName": [
-                  "Balance"
-                ],
-                "type": 2
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "create_meetup",
-          "mutates": true,
-          "payable": true,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 28
-          },
-          "selector": "0xad21698a"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "register_for_meetup",
-          "mutates": true,
-          "payable": true,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0x87d58be4"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "unregister_from_meetup",
-          "mutates": true,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0x455e25bb"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "label": "attendee",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "check_in",
-          "mutates": true,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0xdacf1625"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "cancel_meetup",
-          "mutates": true,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0x30ed4a12"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "distribute_revenue",
-          "mutates": true,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0x134fcf50"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "label": "new_status",
-              "type": {
-                "displayName": [
-                  "MeetupStatus"
-                ],
-                "type": 10
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "update_state",
-          "mutates": true,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 31
-          },
-          "selector": "0x1a11239b"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "get_meetup",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 33
-          },
-          "selector": "0x280b99c1"
-        },
-        {
-          "args": [],
-          "default": false,
-          "docs": [],
-          "label": "get_next_id",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 35
-          },
-          "selector": "0xd5bbc5ec"
-        },
-        {
-          "args": [
-            {
-              "label": "only_active",
-              "type": {
-                "displayName": [
-                  "bool"
-                ],
-                "type": 36
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "get_all_meetups",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 37
-          },
-          "selector": "0x04b4b7a4"
-        },
-        {
-          "args": [
-            {
-              "label": "meetup_id",
-              "type": {
-                "displayName": [
-                  "u32"
-                ],
-                "type": 1
-              }
-            },
-            {
-              "label": "attendee",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "get_check_in_status",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 40
-          },
-          "selector": "0x7591bb5a"
-        },
-        {
-          "args": [
-            {
-              "label": "user",
-              "type": {
-                "displayName": [
-                  "AccountId"
-                ],
-                "type": 3
-              }
-            }
-          ],
-          "default": false,
-          "docs": [],
-          "label": "get_reputation_score",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "ink",
-              "MessageResult"
-            ],
-            "type": 42
-          },
-          "selector": "0x12168df1"
-        }
-      ]
-    },
-    "storage": {
-      "root": {
-        "layout": {
-          "struct": {
-            "fields": [
-              {
-                "layout": {
-                  "root": {
-                    "layout": {
-                      "struct": {
-                        "fields": [
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 0
-                              }
-                            },
-                            "name": "timestamp"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 1
-                              }
-                            },
-                            "name": "max_attendees"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 2
-                              }
-                            },
-                            "name": "price"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 3
-                              }
-                            },
-                            "name": "host"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 6
-                              }
-                            },
-                            "name": "attendees"
-                          },
-                          {
-                            "layout": {
-                              "enum": {
-                                "dispatchKey": "0x6cdd13b1",
-                                "name": "MeetupStatus",
-                                "variants": {
-                                  "0": {
-                                    "fields": [],
-                                    "name": "Planned"
-                                  },
-                                  "1": {
-                                    "fields": [],
-                                    "name": "Ongoing"
-                                  },
-                                  "2": {
-                                    "fields": [],
-                                    "name": "Ended"
-                                  },
-                                  "3": {
-                                    "fields": [],
-                                    "name": "Cancelled"
-                                  }
-                                }
-                              }
-                            },
-                            "name": "status"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 2
-                              }
-                            },
-                            "name": "total_paid"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 7
-                              }
-                            },
-                            "name": "title"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 7
-                              }
-                            },
-                            "name": "description"
-                          },
-                          {
-                            "layout": {
-                              "enum": {
-                                "dispatchKey": "0x6cdd13b1",
-                                "name": "LocationType",
-                                "variants": {
-                                  "0": {
-                                    "fields": [],
-                                    "name": "Online"
-                                  },
-                                  "1": {
-                                    "fields": [],
-                                    "name": "InPerson"
-                                  }
-                                }
-                              }
-                            },
-                            "name": "location_type"
-                          },
-                          {
-                            "layout": {
-                              "leaf": {
-                                "key": "0x6cdd13b1",
-                                "ty": 7
-                              }
-                            },
-                            "name": "location"
-                          }
-                        ],
-                        "name": "Meetup"
-                      }
-                    },
-                    "root_key": "0x6cdd13b1",
-                    "ty": 8
-                  }
-                },
-                "name": "meetups"
-              },
-              {
-                "layout": {
-                  "leaf": {
-                    "key": "0x00000000",
-                    "ty": 1
-                  }
-                },
-                "name": "next_id"
-              },
-              {
-                "layout": {
-                  "root": {
-                    "layout": {
-                      "enum": {
-                        "dispatchKey": "0x8288385b",
-                        "name": "CheckInStatus",
-                        "variants": {
-                          "0": {
-                            "fields": [],
-                            "name": "AttendeeApproved"
-                          },
-                          "1": {
-                            "fields": [],
-                            "name": "HostApproved"
-                          },
-                          "2": {
-                            "fields": [],
-                            "name": "FullyCheckedIn"
-                          }
-                        }
-                      }
-                    },
-                    "root_key": "0x8288385b",
-                    "ty": 16
-                  }
-                },
-                "name": "check_ins"
-              },
-              {
-                "layout": {
-                  "root": {
-                    "layout": {
-                      "leaf": {
-                        "key": "0x6e18b1ae",
-                        "ty": 21
-                      }
-                    },
-                    "root_key": "0x6e18b1ae",
-                    "ty": 22
-                  }
-                },
-                "name": "reputation_scores"
-              }
-            ],
-            "name": "MeetupDapp"
-          }
-        },
-        "root_key": "0x00000000",
-        "ty": 25
-      }
-    },
-    "types": [
+    }
+  },
+  "contract": {
+    "name": "meetup_dapp",
+    "version": "0.1.0",
+    "authors": [
+      "Gabriel Jaeger <your.email@example.com>"
+    ]
+  },
+  "image": null,
+  "spec": {
+    "constructors": [
       {
-        "id": 0,
-        "type": {
-          "def": {
-            "primitive": "u64"
-          }
-        }
-      },
-      {
-        "id": 1,
-        "type": {
-          "def": {
-            "primitive": "u32"
-          }
-        }
-      },
-      {
-        "id": 2,
-        "type": {
-          "def": {
-            "primitive": "u128"
-          }
-        }
-      },
-      {
-        "id": 3,
-        "type": {
-          "def": {
-            "composite": {
-              "fields": [
-                {
-                  "type": 4,
-                  "typeName": "[u8; 32]"
-                }
-              ]
-            }
-          },
-          "path": [
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
             "ink_primitives",
-            "types",
-            "AccountId"
-          ]
-        }
-      },
-      {
-        "id": 4,
-        "type": {
-          "def": {
-            "array": {
-              "len": 32,
-              "type": 5
-            }
-          }
-        }
-      },
-      {
-        "id": 5,
-        "type": {
-          "def": {
-            "primitive": "u8"
-          }
-        }
-      },
-      {
-        "id": 6,
-        "type": {
-          "def": {
-            "sequence": {
-              "type": 3
-            }
-          }
-        }
-      },
-      {
-        "id": 7,
-        "type": {
-          "def": {
-            "sequence": {
-              "type": 5
-            }
-          }
-        }
-      },
-      {
-        "id": 8,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "K",
-              "type": 1
-            },
-            {
-              "name": "V",
-              "type": 9
-            },
-            {
-              "name": "KeyType",
-              "type": 12
-            }
+            "ConstructorResult"
           ],
-          "path": [
-            "ink_storage",
-            "lazy",
-            "mapping",
-            "Mapping"
-          ]
-        }
-      },
-      {
-        "id": 9,
-        "type": {
-          "def": {
-            "composite": {
-              "fields": [
-                {
-                  "name": "timestamp",
-                  "type": 0,
-                  "typeName": "u64"
-                },
-                {
-                  "name": "max_attendees",
-                  "type": 1,
-                  "typeName": "u32"
-                },
-                {
-                  "name": "price",
-                  "type": 2,
-                  "typeName": "Balance"
-                },
-                {
-                  "name": "host",
-                  "type": 3,
-                  "typeName": "AccountId"
-                },
-                {
-                  "name": "attendees",
-                  "type": 6,
-                  "typeName": "Vec<AccountId>"
-                },
-                {
-                  "name": "status",
-                  "type": 10,
-                  "typeName": "MeetupStatus"
-                },
-                {
-                  "name": "total_paid",
-                  "type": 2,
-                  "typeName": "Balance"
-                },
-                {
-                  "name": "title",
-                  "type": 7,
-                  "typeName": "Vec<u8>"
-                },
-                {
-                  "name": "description",
-                  "type": 7,
-                  "typeName": "Vec<u8>"
-                },
-                {
-                  "name": "location_type",
-                  "type": 11,
-                  "typeName": "LocationType"
-                },
-                {
-                  "name": "location",
-                  "type": 7,
-                  "typeName": "Vec<u8>"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "Meetup"
-          ]
-        }
-      },
-      {
-        "id": 10,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "Planned"
-                },
-                {
-                  "index": 1,
-                  "name": "Ongoing"
-                },
-                {
-                  "index": 2,
-                  "name": "Ended"
-                },
-                {
-                  "index": 3,
-                  "name": "Cancelled"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "MeetupStatus"
-          ]
-        }
-      },
-      {
-        "id": 11,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "Online"
-                },
-                {
-                  "index": 1,
-                  "name": "InPerson"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "LocationType"
-          ]
-        }
-      },
-      {
-        "id": 12,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "L",
-              "type": 13
-            },
-            {
-              "name": "R",
-              "type": 14
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ResolverKey"
-          ]
-        }
-      },
-      {
-        "id": 13,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "AutoKey"
-          ]
-        }
-      },
-      {
-        "id": 14,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "ParentKey",
-              "type": 15
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ManualKey"
-          ]
-        }
-      },
-      {
-        "id": 15,
-        "type": {
-          "def": {
-            "tuple": []
-          }
-        }
-      },
-      {
-        "id": 16,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "K",
-              "type": 17
-            },
-            {
-              "name": "V",
-              "type": 18
-            },
-            {
-              "name": "KeyType",
-              "type": 19
-            }
-          ],
-          "path": [
-            "ink_storage",
-            "lazy",
-            "mapping",
-            "Mapping"
-          ]
-        }
-      },
-      {
-        "id": 17,
-        "type": {
-          "def": {
-            "tuple": [
-              1,
-              3
-            ]
-          }
-        }
-      },
-      {
-        "id": 18,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "AttendeeApproved"
-                },
-                {
-                  "index": 1,
-                  "name": "HostApproved"
-                },
-                {
-                  "index": 2,
-                  "name": "FullyCheckedIn"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "CheckInStatus"
-          ]
-        }
-      },
-      {
-        "id": 19,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "L",
-              "type": 13
-            },
-            {
-              "name": "R",
-              "type": 20
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ResolverKey"
-          ]
-        }
-      },
-      {
-        "id": 20,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "ParentKey",
-              "type": 15
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ManualKey"
-          ]
-        }
-      },
-      {
-        "id": 21,
-        "type": {
-          "def": {
-            "primitive": "i32"
-          }
-        }
-      },
-      {
-        "id": 22,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "K",
-              "type": 3
-            },
-            {
-              "name": "V",
-              "type": 21
-            },
-            {
-              "name": "KeyType",
-              "type": 23
-            }
-          ],
-          "path": [
-            "ink_storage",
-            "lazy",
-            "mapping",
-            "Mapping"
-          ]
-        }
-      },
-      {
-        "id": 23,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "L",
-              "type": 13
-            },
-            {
-              "name": "R",
-              "type": 24
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ResolverKey"
-          ]
-        }
-      },
-      {
-        "id": 24,
-        "type": {
-          "def": {
-            "composite": {}
-          },
-          "params": [
-            {
-              "name": "ParentKey",
-              "type": 15
-            }
-          ],
-          "path": [
-            "ink_storage_traits",
-            "impls",
-            "ManualKey"
-          ]
-        }
-      },
-      {
-        "id": 25,
-        "type": {
-          "def": {
-            "composite": {
-              "fields": [
-                {
-                  "name": "meetups",
-                  "type": 8,
-                  "typeName": "<Mapping<u32, Meetup> as::ink::storage::traits::AutoStorableHint<\n::ink::storage::traits::ManualKey<2970869100u32, ()>,>>::Type"
-                },
-                {
-                  "name": "next_id",
-                  "type": 1,
-                  "typeName": "<u32 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<2941977650u32, ()>,>>::Type"
-                },
-                {
-                  "name": "check_ins",
-                  "type": 16,
-                  "typeName": "<Mapping<(u32, AccountId), CheckInStatus> as::ink::storage::traits\n::AutoStorableHint<::ink::storage::traits::ManualKey<\n1530431618u32, ()>,>>::Type"
-                },
-                {
-                  "name": "reputation_scores",
-                  "type": 22,
-                  "typeName": "<Mapping<AccountId, i32> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2930841710u32,\n()>,>>::Type"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "MeetupDapp"
-          ]
-        }
-      },
-      {
-        "id": 26,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 15
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 15
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 27,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 1,
-                  "name": "CouldNotReadInput"
-                }
-              ]
-            }
-          },
-          "path": [
-            "ink_primitives",
-            "LangError"
-          ]
-        }
-      },
-      {
-        "id": 28,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 29
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 29
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 29,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 1
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 30
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 1
-            },
-            {
-              "name": "E",
-              "type": 30
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 30,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "InsufficientFunds"
-                },
-                {
-                  "index": 1,
-                  "name": "NotHost"
-                },
-                {
-                  "index": 2,
-                  "name": "MeetupNotFound"
-                },
-                {
-                  "index": 3,
-                  "name": "MaxAttendeesReached"
-                },
-                {
-                  "index": 4,
-                  "name": "AlreadyRegistered"
-                },
-                {
-                  "index": 5,
-                  "name": "NotRegistered"
-                },
-                {
-                  "index": 6,
-                  "name": "InvalidStatus"
-                },
-                {
-                  "index": 7,
-                  "name": "TransferFailed"
-                },
-                {
-                  "index": 8,
-                  "name": "PastMeetup"
-                },
-                {
-                  "index": 9,
-                  "name": "NotAuthorized"
-                },
-                {
-                  "index": 10,
-                  "name": "AlreadyCheckedIn"
-                },
-                {
-                  "index": 11,
-                  "name": "TextTooLong"
-                }
-              ]
-            }
-          },
-          "path": [
-            "meetup_dapp",
-            "meetup_dapp",
-            "Error"
-          ]
-        }
-      },
-      {
-        "id": 31,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 32
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 32
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 32,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 15
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 30
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 15
-            },
-            {
-              "name": "E",
-              "type": 30
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 33,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 34
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 34
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 34,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "None"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 9
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Some"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 9
-            }
-          ],
-          "path": [
-            "Option"
-          ]
-        }
-      },
-      {
-        "id": 35,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 1
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 1
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 36,
-        "type": {
-          "def": {
-            "primitive": "bool"
-          }
-        }
-      },
-      {
-        "id": 37,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 38
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 38
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 38,
-        "type": {
-          "def": {
-            "sequence": {
-              "type": 39
-            }
-          }
-        }
-      },
-      {
-        "id": 39,
-        "type": {
-          "def": {
-            "tuple": [
-              1,
-              9
-            ]
-          }
-        }
-      },
-      {
-        "id": 40,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 41
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 41
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 41,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "index": 0,
-                  "name": "None"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 18
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Some"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 18
-            }
-          ],
-          "path": [
-            "Option"
-          ]
-        }
-      },
-      {
-        "id": 42,
-        "type": {
-          "def": {
-            "variant": {
-              "variants": [
-                {
-                  "fields": [
-                    {
-                      "type": 21
-                    }
-                  ],
-                  "index": 0,
-                  "name": "Ok"
-                },
-                {
-                  "fields": [
-                    {
-                      "type": 27
-                    }
-                  ],
-                  "index": 1,
-                  "name": "Err"
-                }
-              ]
-            }
-          },
-          "params": [
-            {
-              "name": "T",
-              "type": 21
-            },
-            {
-              "name": "E",
-              "type": 27
-            }
-          ],
-          "path": [
-            "Result"
-          ]
-        }
-      },
-      {
-        "id": 43,
-        "type": {
-          "def": {
-            "composite": {
-              "fields": [
-                {
-                  "type": 4,
-                  "typeName": "[u8; 32]"
-                }
-              ]
-            }
-          },
-          "path": [
-            "ink_primitives",
-            "types",
-            "Hash"
-          ]
-        }
-      },
-      {
-        "id": 44,
-        "type": {
-          "def": {
-            "variant": {}
-          },
-          "path": [
-            "ink_env",
-            "types",
-            "NoChainExtension"
-          ]
-        }
+          "type": 26
+        },
+        "selector": "0x9bae9d5e"
       }
     ],
-    "version": 5
-  }
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 3
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 2
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 1
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 44
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 43
+      },
+      "maxEventTopics": 4,
+      "staticBufferSize": 16384,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 0
+      }
+    },
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "host",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "timestamp",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "location_type",
+            "type": {
+              "displayName": [
+                "LocationType"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "timezone",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "docs": [],
+        "label": "MeetupCreated",
+        "module_path": "meetup_dapp::meetup_dapp",
+        "signature_topic": "0x99a3317b8abcf5d987a0bf236ae400aad7b2fc44b159629a856fd8099f6d7459"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "attendee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "AttendeeRegistered",
+        "module_path": "meetup_dapp::meetup_dapp",
+        "signature_topic": "0x904f5245391091b78ce2dd5a665718c6d2de54c00011b8f72a310a3cb144f20e"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "attendee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "AttendeeUnregistered",
+        "module_path": "meetup_dapp::meetup_dapp",
+        "signature_topic": "0x53a5759d3dec6089079606b0d35507002c415920fcf0f25f0a1153aa2b1ec5b2"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "MeetupCancelled",
+        "module_path": "meetup_dapp::meetup_dapp",
+        "signature_topic": "0x7f9ca43e17d025e8087ab7fe07328e2bca88d0bd8900c6c6f0143815bf31416e"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "host_payout",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RevenueDistributed",
+        "module_path": "meetup_dapp::meetup_dapp",
+        "signature_topic": "0xe5d89457a6334e19ba1511cbc4725cd94c20d1cf828959b22df568e73891586c"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 27
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "location_type",
+            "type": {
+              "displayName": [
+                "LocationType"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "timezone",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "timestamp",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "max_attendees",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "create_meetup",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 28
+        },
+        "selector": "0xad21698a"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "register_for_meetup",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x87d58be4"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "unregister_from_meetup",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x455e25bb"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "attendee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "check_in",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0xdacf1625"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "cancel_meetup",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x30ed4a12"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "distribute_revenue",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x134fcf50"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "new_status",
+            "type": {
+              "displayName": [
+                "MeetupStatus"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_state",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x1a11239b"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_meetup",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0x280b99c1"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_next_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0xd5bbc5ec"
+      },
+      {
+        "args": [
+          {
+            "label": "only_active",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 36
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_all_meetups",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 37
+        },
+        "selector": "0x04b4b7a4"
+      },
+      {
+        "args": [
+          {
+            "label": "meetup_id",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "attendee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_check_in_status",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 40
+        },
+        "selector": "0x7591bb5a"
+      },
+      {
+        "args": [
+          {
+            "label": "user",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_reputation_score",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 42
+        },
+        "selector": "0x12168df1"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 0
+                            }
+                          },
+                          "name": "timestamp"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 1
+                            }
+                          },
+                          "name": "max_attendees"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 2
+                            }
+                          },
+                          "name": "price"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 3
+                            }
+                          },
+                          "name": "host"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 6
+                            }
+                          },
+                          "name": "attendees"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x6cdd13b1",
+                              "name": "MeetupStatus",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Planned"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Ongoing"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Ended"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Cancelled"
+                                }
+                              }
+                            }
+                          },
+                          "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 2
+                            }
+                          },
+                          "name": "total_paid"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 7
+                            }
+                          },
+                          "name": "title"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 7
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x6cdd13b1",
+                              "name": "LocationType",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Online"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "InPerson"
+                                }
+                              }
+                            }
+                          },
+                          "name": "location_type"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 7
+                            }
+                          },
+                          "name": "location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6cdd13b1",
+                              "ty": 7
+                            }
+                          },
+                          "name": "timezone"
+                        }
+                      ],
+                      "name": "Meetup"
+                    }
+                  },
+                  "root_key": "0x6cdd13b1",
+                  "ty": 8
+                }
+              },
+              "name": "meetups"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 1
+                }
+              },
+              "name": "next_id"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "enum": {
+                      "dispatchKey": "0x8288385b",
+                      "name": "CheckInStatus",
+                      "variants": {
+                        "0": {
+                          "fields": [],
+                          "name": "AttendeeApproved"
+                        },
+                        "1": {
+                          "fields": [],
+                          "name": "HostApproved"
+                        },
+                        "2": {
+                          "fields": [],
+                          "name": "FullyCheckedIn"
+                        }
+                      }
+                    }
+                  },
+                  "root_key": "0x8288385b",
+                  "ty": 16
+                }
+              },
+              "name": "check_ins"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x6e18b1ae",
+                      "ty": 21
+                    }
+                  },
+                  "root_key": "0x6e18b1ae",
+                  "ty": 22
+                }
+              },
+              "name": "reputation_scores"
+            }
+          ],
+          "name": "MeetupDapp"
+        }
+      },
+      "root_key": "0x00000000",
+      "ty": 25
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 1
+          },
+          {
+            "name": "V",
+            "type": 9
+          },
+          {
+            "name": "KeyType",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "timestamp",
+                "type": 0,
+                "typeName": "u64"
+              },
+              {
+                "name": "max_attendees",
+                "type": 1,
+                "typeName": "u32"
+              },
+              {
+                "name": "price",
+                "type": 2,
+                "typeName": "Balance"
+              },
+              {
+                "name": "host",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "attendees",
+                "type": 6,
+                "typeName": "Vec<AccountId>"
+              },
+              {
+                "name": "status",
+                "type": 10,
+                "typeName": "MeetupStatus"
+              },
+              {
+                "name": "total_paid",
+                "type": 2,
+                "typeName": "Balance"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "location_type",
+                "type": 11,
+                "typeName": "LocationType"
+              },
+              {
+                "name": "location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timezone",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "Meetup"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Planned"
+              },
+              {
+                "index": 1,
+                "name": "Ongoing"
+              },
+              {
+                "index": 2,
+                "name": "Ended"
+              },
+              {
+                "index": 3,
+                "name": "Cancelled"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "MeetupStatus"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Online"
+              },
+              {
+                "index": 1,
+                "name": "InPerson"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "LocationType"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 13
+          },
+          {
+            "name": "R",
+            "type": 14
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 15
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 17
+          },
+          {
+            "name": "V",
+            "type": 18
+          },
+          {
+            "name": "KeyType",
+            "type": 19
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "tuple": [
+            1,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "AttendeeApproved"
+              },
+              {
+                "index": 1,
+                "name": "HostApproved"
+              },
+              {
+                "index": 2,
+                "name": "FullyCheckedIn"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "CheckInStatus"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 13
+          },
+          {
+            "name": "R",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 15
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "primitive": "i32"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 3
+          },
+          {
+            "name": "V",
+            "type": 21
+          },
+          {
+            "name": "KeyType",
+            "type": 23
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 13
+          },
+          {
+            "name": "R",
+            "type": 24
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 15
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "meetups",
+                "type": 8,
+                "typeName": "<Mapping<u32, Meetup> as::ink::storage::traits::AutoStorableHint<\n::ink::storage::traits::ManualKey<2970869100u32, ()>,>>::Type"
+              },
+              {
+                "name": "next_id",
+                "type": 1,
+                "typeName": "<u32 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<2941977650u32, ()>,>>::Type"
+              },
+              {
+                "name": "check_ins",
+                "type": 16,
+                "typeName": "<Mapping<(u32, AccountId), CheckInStatus> as::ink::storage::traits\n::AutoStorableHint<::ink::storage::traits::ManualKey<\n1530431618u32, ()>,>>::Type"
+              },
+              {
+                "name": "reputation_scores",
+                "type": 22,
+                "typeName": "<Mapping<AccountId, i32> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2930841710u32,\n()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "MeetupDapp"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 15
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 29
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 29
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 30
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 30
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "InsufficientFunds"
+              },
+              {
+                "index": 1,
+                "name": "NotHost"
+              },
+              {
+                "index": 2,
+                "name": "MeetupNotFound"
+              },
+              {
+                "index": 3,
+                "name": "MaxAttendeesReached"
+              },
+              {
+                "index": 4,
+                "name": "AlreadyRegistered"
+              },
+              {
+                "index": 5,
+                "name": "NotRegistered"
+              },
+              {
+                "index": 6,
+                "name": "InvalidStatus"
+              },
+              {
+                "index": 7,
+                "name": "TransferFailed"
+              },
+              {
+                "index": 8,
+                "name": "PastMeetup"
+              },
+              {
+                "index": 9,
+                "name": "NotAuthorized"
+              },
+              {
+                "index": 10,
+                "name": "AlreadyCheckedIn"
+              },
+              {
+                "index": 11,
+                "name": "TextTooLong"
+              }
+            ]
+          }
+        },
+        "path": [
+          "meetup_dapp",
+          "meetup_dapp",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 32
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 32
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 30
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 15
+          },
+          {
+            "name": "E",
+            "type": 30
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 34
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 34
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 38
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 38
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 39
+          }
+        }
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "tuple": [
+            1,
+            9
+          ]
+        }
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 41
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 41
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 21
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 27
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 21
+          },
+          {
+            "name": "E",
+            "type": 27
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": 5
+}
