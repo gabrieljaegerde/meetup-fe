@@ -20,16 +20,14 @@ export default function LandingPage() {
       <div className="relative z-10 flex min-h-screen flex-col bg-black/50">
         {/* Header */}
         <header className="flex items-center justify-between p-4">
-          <h1 className="font-mono text-2xl font-bold text-white">MeetupChain</h1>
+          <h1 className="font-mono text-2xl font-bold text-white">MeetDot</h1>
           <ConnectButton />
         </header>
 
         {/* Hero */}
         <main className="flex flex-1 flex-col items-center justify-center text-center text-white">
-          <h2 className="mb-4 font-mono text-5xl font-bold">
-            Discover or Create Blockchain Meetups
-          </h2>
-          <p className="mb-8 text-xl">Connect with communities worldwide</p>
+          <h2 className="mb-4 font-mono text-5xl font-bold">Connecting the dots...</h2>
+          <p className="mb-8 text-xl">Between the global polkadot community</p>
           <div className="flex gap-4">
             <Link
               href="/app"

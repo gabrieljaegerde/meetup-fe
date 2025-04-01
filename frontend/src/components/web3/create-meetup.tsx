@@ -6,8 +6,12 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useSta
 import { ContractIds } from '@/deployments/deployments'
 import { u32, u64 } from '@polkadot/types'
 import { contractTx, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
+import { format } from 'date-fns'
+// Import parse from date-fns
+import { fromZonedTime } from 'date-fns-tz'
+// Import timezone functions from date-fns-tz
 import L, { LeafletMouseEvent } from 'leaflet'
-import { Calendar, DollarSign, MapPin, Users, X } from 'lucide-react'
+import { Calendar, DollarSign, Edit2, MapPin, Users, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useMap, useMapEvents } from 'react-leaflet'
 import TimezoneSelect from 'react-timezone-select'
@@ -41,9 +45,11 @@ const MapClickHandler = ({
 }: {
   onLocationSelect: (lat: number, lng: number) => void
 }) => {
+  const map = useMap()
   useMapEvents({
     click(e: LeafletMouseEvent) {
       onLocationSelect(e.latlng.lat, e.latlng.lng)
+      map.setView([e.latlng.lat, e.latlng.lng], map.getZoom())
     },
   })
   return null
@@ -52,7 +58,7 @@ const MapClickHandler = ({
 const MapRecenter = ({ coordinates }: { coordinates: [number, number] | null }) => {
   const map = useMap()
   useEffect(() => {
-    if (coordinates) map.setView(coordinates, 15)
+    if (coordinates) map.setView(coordinates, map.getZoom())
   }, [coordinates, map])
   return null
 }
@@ -96,53 +102,52 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
   const searchInputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLUListElement>(null)
 
-  const markerIcon = useMemo(
+  const meetupIcon = useMemo(
     () =>
       new L.Icon({
-        iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149060.png',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
       }),
     [],
   )
 
-  // Custom styles for TimezoneSelect
   const timezoneSelectStyles = {
     control: (base: any) => ({
       ...base,
-      border: '1px solid #d1d5db', // gray-300
-      borderRadius: '0.375rem', // rounded-md
-      padding: '0.5rem', // p-2
-      fontSize: '0.875rem', // text-sm
-      backgroundColor: '#ffffff', // white
-      color: '#111827', // gray-900
+      border: '1px solid #d1d5db',
+      borderRadius: '0.375rem',
+      padding: '0.5rem',
+      fontSize: '0.875rem',
+      backgroundColor: '#ffffff',
+      color: '#111827',
       boxShadow: 'none',
       '&:hover': {
-        borderColor: '#a5b4fc', // indigo-300
+        borderColor: '#a5b4fc',
       },
       '&:focus': {
-        borderColor: '#4f46e5', // indigo-600
+        borderColor: '#4f46e5',
         boxShadow: '0 0 0 1px #4f46e5',
       },
     }),
     menu: (base: any) => ({
       ...base,
-      border: '1px solid #d1d5db', // gray-300
-      borderRadius: '0.375rem', // rounded-md
-      backgroundColor: '#ffffff', // white
-      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // subtle shadow
+      border: '1px solid #d1d5db',
+      borderRadius: '0.375rem',
+      backgroundColor: '#ffffff',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       maxHeight: '200px',
       overflowY: 'auto',
     }),
     option: (base: any, state: any) => ({
       ...base,
-      padding: '0.5rem', // p-2
-      color: '#111827', // gray-900 (change this to any color you prefer)
-      backgroundColor: state.isFocused || state.isSelected ? '#e0e7ff' : '#ffffff', // indigo-100 on hover/select
+      padding: '0.5rem',
+      color: '#111827',
+      backgroundColor: state.isFocused || state.isSelected ? '#e0e7ff' : '#ffffff',
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: '#e0e7ff', // indigo-100
+        backgroundColor: '#e0e7ff',
       },
     }),
   }
@@ -159,8 +164,6 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
           setEventTimezone('Europe/London')
         },
       )
-    } else if (locationType === 'online') {
-      setEventTimezone('UTC') // Reset to UTC for online events
     }
   }, [locationType])
 
@@ -237,27 +240,18 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
 
   const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    if (value.length <= MAX_CHARS) {
-      setAddress(value)
-      fetchAddressSuggestions(value)
-    } else {
-      toast.error(`Address exceeds ${MAX_CHARS} characters`)
-    }
+    setAddress(value)
+    fetchAddressSuggestions(value)
   }
 
   const handleAddressSelect = (option: { display_name: string; lat: string; lon: string }) => {
-    const truncatedName = option.display_name.slice(0, MAX_CHARS)
-    if (getByteLength(truncatedName) <= MAX_TEXT_BYTES) {
-      setAddress(truncatedName)
-      const lat = parseFloat(option.lat)
-      const lon = parseFloat(option.lon)
-      setCoordinates([lat, lon])
-      setAddressOptions([])
-      setIsAddressDropdownOpen(false)
-      reverseGeocode(lat, lon)
-    } else {
-      toast.error(`Selected address exceeds ${MAX_TEXT_BYTES} bytes`)
-    }
+    setAddress(option.display_name)
+    const lat = parseFloat(option.lat)
+    const lon = parseFloat(option.lon)
+    setCoordinates([lat, lon])
+    setAddressOptions([])
+    setIsAddressDropdownOpen(false)
+    reverseGeocode(lat, lon)
   }
 
   const handleMapClick = (lat: number, lng: number) => {
@@ -275,11 +269,9 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
 
     setIsSubmitting(true)
     try {
-      const localDate = new Date(timestamp)
-      const timestampMs =
-        locationType === 'online'
-          ? localDate.getTime() - localDate.getTimezoneOffset() * 60000 // Convert to UTC for online
-          : localDate.getTime() // Keep as local time for IRL
+      const localDate = new Date(timestamp) // Use native JS parsing for submission
+      const utcDate = fromZonedTime(localDate, eventTimezone)
+      const timestampMs = utcDate.getTime()
 
       const maxAttendeesNum = parseInt(maxAttendees, 10)
       const priceNum = BigInt(Math.floor(parseFloat(price) * 1e18))
@@ -344,10 +336,27 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
   const handleClearLocation = () => {
     setCoordinates(null)
     setAddress('')
-    setEventTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone) // Reset to user's timezone
+    setEventTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
     setIsAddressDropdownOpen(false)
     searchInputRef.current?.focus()
   }
+
+  // Compute time displays
+  const localDate = timestamp ? new Date(timestamp) : null
+  const utcTimeDisplay = localDate
+    ? new Date(fromZonedTime(localDate, eventTimezone)).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        timeZone: 'UTC',
+      })
+    : ''
+  const localTimeDisplay = localDate
+    ? format(localDate, 'MMM d, yyyy h:mm a') + ` (${eventTimezone})`
+    : ''
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 pb-8 pt-20">
@@ -372,7 +381,7 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
                 disabled={isSubmitting}
                 className="border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500"
               />
-              <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
+              <Edit2 className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
             </div>
             <p className="text-xs text-gray-500">{MAX_CHARS - title.length} characters remaining</p>
           </div>
@@ -471,9 +480,6 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
                     </button>
                   )}
                 </div>
-                <p className="text-xs text-gray-500">
-                  {MAX_CHARS - address.length} characters remaining
-                </p>
                 {isAddressDropdownOpen && addressOptions.length > 0 && (
                   <ul
                     ref={dropdownRef}
@@ -510,7 +516,7 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
                   >
                     <TileLayerDynamic url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     {coordinates && (
-                      <MarkerDynamic position={coordinates} icon={markerIcon}>
+                      <MarkerDynamic position={coordinates} icon={meetupIcon}>
                         <PopupDynamic>{address || 'Selected Location'}</PopupDynamic>
                       </MarkerDynamic>
                     )}
@@ -539,24 +545,24 @@ export const CreateMeetup = ({ onViewChange, onRefetch }: CreateMeetupProps) => 
               />
               <Calendar className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
             </div>
-            {locationType === 'irl' && (
-              <div className="space-y-2">
-                <Label htmlFor="timezone" className="text-sm font-medium text-gray-700">
-                  Event Timezone
-                </Label>
-                <TimezoneSelect
-                  value={eventTimezone}
-                  onChange={(tz) => setEventTimezone(tz.value)}
-                  isDisabled={isSubmitting}
-                  classNamePrefix="timezone-select"
-                  styles={timezoneSelectStyles} // Apply custom styles here
-                />
-              </div>
-            )}
+            <div className="space-y-2">
+              <Label htmlFor="timezone" className="text-sm font-medium text-gray-700">
+                Event Timezone
+              </Label>
+              <TimezoneSelect
+                value={eventTimezone}
+                onChange={(tz) => setEventTimezone(tz.value)}
+                isDisabled={isSubmitting}
+                classNamePrefix="timezone-select"
+                styles={timezoneSelectStyles}
+              />
+            </div>
             <p className="text-xs text-gray-500">
-              {locationType === 'online'
-                ? 'Enter your local time (will be converted to UTC)'
-                : `Enter local time at the meetup location (${eventTimezone})`}
+              {timestamp
+                ? locationType === 'online'
+                  ? `UTC Time: ${utcTimeDisplay}`
+                  : `Local Time: ${localTimeDisplay}`
+                : 'Select the meetup date, time, and timezone'}
             </p>
           </div>
 

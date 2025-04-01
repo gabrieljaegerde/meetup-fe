@@ -30,8 +30,6 @@ const meetupIcon = new L.Icon({
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
-  shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
-  shadowSize: [41, 41],
 })
 
 // Custom cluster icon
@@ -65,7 +63,7 @@ export const Home = ({
   const [userTimezone] = useState<string>(Intl.DateTimeFormat().resolvedOptions().timeZone)
   const [currentTime, setCurrentTime] = useState<number>(Date.now())
   const [isMounted, setIsMounted] = useState(false)
-  const [initialMapCenter, setInitialMapCenter] = useState<[number, number]>([20, 0]) // Renamed for clarity
+  const [initialMapCenter, setInitialMapCenter] = useState<[number, number]>([20, 0])
   const onlineRef = useRef<HTMLDivElement>(null)
   const inPersonRef = useRef<HTMLDivElement>(null)
 
@@ -73,7 +71,6 @@ export const Home = ({
   const onlineOpacity = useTransform(scrollY, [0, 200], [1, 0.5])
   const inPersonTop = useTransform(scrollY, [0, 64], [80, 16])
 
-  // Fetch user location only once on mount
   useEffect(() => {
     setIsMounted(true)
     getUserLocation()
@@ -81,13 +78,11 @@ export const Home = ({
       .catch(() => setLocationError('Unable to fetch location. Sorting by date.'))
   }, [])
 
-  // Update current time
   useEffect(() => {
     const interval = setInterval(() => setCurrentTime(Date.now()), 1000)
     return () => clearInterval(interval)
   }, [])
 
-  // Fetch chain info
   useEffect(() => {
     const fetchChainInfo = async () => {
       if (!api) return
@@ -99,21 +94,14 @@ export const Home = ({
     fetchChainInfo()
   }, [api])
 
-  const activeMeetups = useMemo(
-    () => meetups.filter((m) => ['Planned', 'Ongoing'].includes(m.status)),
+  const onlineMeetups = useMemo(
+    () =>
+      meetups.filter((m) => m.locationType === 'Online').sort((a, b) => a.timestamp - b.timestamp),
     [meetups],
   )
 
-  const onlineMeetups = useMemo(
-    () =>
-      activeMeetups
-        .filter((m) => m.locationType === 'Online')
-        .sort((a, b) => a.timestamp - b.timestamp),
-    [activeMeetups],
-  )
-
   const inPersonMeetups = useMemo(() => {
-    return activeMeetups
+    return meetups
       .filter((m) => m.locationType === 'InPerson')
       .map((m) => {
         const [lat, lon] = m.location.split(',').map(Number)
@@ -126,16 +114,14 @@ export const Home = ({
       .sort((a, b) =>
         userLocation && !locationError ? a.distance - b.distance : a.timestamp - b.timestamp,
       )
-  }, [activeMeetups, userLocation, locationError])
+  }, [meetups, userLocation, locationError])
 
   const closestMeetupId =
     inPersonMeetups.length > 0 && inPersonMeetups[0]?.distance !== Infinity
       ? inPersonMeetups[0].id
       : null
 
-  // Set initial map center only once after mount
   useEffect(() => {
-    console.log('Setting initialMapCenter', { isMounted, inPersonMeetups })
     if (!isMounted || inPersonMeetups.length === 0) {
       setInitialMapCenter([20, 0])
       return
@@ -146,7 +132,7 @@ export const Home = ({
     } else {
       setInitialMapCenter([20, 0])
     }
-  }, [isMounted, inPersonMeetups]) // Only run when isMounted or inPersonMeetups changes
+  }, [isMounted, inPersonMeetups])
 
   const parseLocation = (location: string): [number, number] | null => {
     if (!location.includes(',')) return null
@@ -154,7 +140,6 @@ export const Home = ({
     return isNaN(lat) || isNaN(lng) ? null : [lat, lng]
   }
 
-  // Memoize markers to prevent unnecessary re-renders
   const mapMarkers = useMemo(() => {
     return inPersonMeetups
       .map((meetup) => {
@@ -250,7 +235,7 @@ export const Home = ({
         </motion.h2>
         {onlineMeetups.length === 0 ? (
           <p className="py-8 text-center text-lg italic text-gray-600">
-            No active online meetups found.
+            No upcoming online meetups found.
           </p>
         ) : (
           <div ref={onlineRef} className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
@@ -275,7 +260,7 @@ export const Home = ({
         </motion.h2>
         {inPersonMeetups.length === 0 ? (
           <p className="py-8 text-center text-lg italic text-gray-600">
-            No active in-person meetups found.
+            No upcoming in-person meetups found.
           </p>
         ) : (
           <>

@@ -20,8 +20,49 @@ import { Meetup } from '@/types/meetup'
 
 type Tab = 'home' | 'calendar' | 'my-meetups'
 
-const decodeVecU8 = (vec: number[] | undefined) =>
-  vec ? new TextDecoder().decode(new Uint8Array(vec)) : 'N/A'
+// Enhanced decodeVecU8 to handle hex strings, byte arrays, or plain strings
+const decodeVecU8 = (vec: number[] | string | undefined): string => {
+  if (!vec) return 'N/A'
+  if (Array.isArray(vec)) {
+    // Vec<u8> as number[]
+    return new TextDecoder().decode(new Uint8Array(vec))
+  }
+  if (typeof vec === 'string') {
+    if (vec.startsWith('0x')) {
+      // Hex string (e.g., "0x66667364667364660a...")
+      const bytes = Uint8Array.from(
+        vec
+          .slice(2)
+          .match(/.{1,2}/g)!
+          .map((byte) => parseInt(byte, 16)),
+      )
+      return new TextDecoder().decode(bytes)
+    }
+    // Plain string (for older meetups)
+    return vec
+  }
+  return 'N/A'
+}
+
+const hasMeetupPassed = (meetup: Meetup, currentDate: Date): boolean => {
+  try {
+    const meetupDate = new Date(meetup.timestamp)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: meetup.timezone || 'UTC',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    })
+    const meetupLocalTime = new Date(formatter.format(meetupDate))
+    return meetupLocalTime < currentDate
+  } catch (e) {
+    console.error(`Error parsing meetup timestamp for ID ${meetup.id}:`, e)
+    return false
+  }
+}
 
 const fetchMeetups = async (
   api: any,
@@ -49,19 +90,24 @@ const fetchMeetups = async (
       return {
         id,
         title: decodeVecU8(meetup.title),
-        location: typeof rawLocation === 'string' ? rawLocation : decodeVecU8(rawLocation),
+        location:
+          typeof rawLocation === 'string' ? decodeVecU8(rawLocation) : decodeVecU8(rawLocation),
         locationType,
-        description: decodeVecU8(meetup.description),
+        description: decodeVecU8(meetup.description), // Ensure proper decoding
         timestamp: parseInt(meetup.timestamp.replace(/,/g, '')),
         price: parseInt(meetup.price.replace(/,/g, '')),
         maxAttendees: parseInt(meetup.maxAttendees),
         attendees: meetup.attendees.map((attendee: any) => attendee.toString()),
-        status: meetup.status?._enum || 'Planned',
-        totalPaid: parseInt(meetup.totalPaid.replace(/,/g, '')),
+        status: meetup.status as 'Planned' | 'Ongoing' | 'Ended' | 'Cancelled',
+        totalPaid:
+          typeof meetup.totalPaid === 'string'
+            ? parseInt(meetup.totalPaid.replace(/,/g, ''))
+            : meetup.totalPaid,
         host: meetup.host.toString(),
-        timezone: meetup.timezone || 'UTC',
+        timezone: decodeVecU8(meetup.timezone) || 'UTC',
       }
     })
+    console.log('Fetched meetups:', results)
     setMeetups(results)
   } catch (e) {
     console.error(e)
@@ -75,14 +121,17 @@ const fetchMeetups = async (
 export default function AppPage() {
   const { api } = useInkathon()
   const { contract } = useRegisteredContract(ContractIds.Meetup)
-  const [meetups, setMeetups] = useState<Meetup[]>([])
+  const [allMeetups, setAllMeetups] = useState<Meetup[]>([])
   const [currentTab, setCurrentTab] = useState<Tab>('home')
   const [fetchIsLoading, setFetchIsLoading] = useState(false)
-  const [instanceKey, setInstanceKey] = useState(Date.now().toString()) // Unique key for component instances
+  const [instanceKey, setInstanceKey] = useState(Date.now().toString())
   const router = useRouter()
 
+  const currentDate = new Date()
+  const activeMeetups = allMeetups.filter((meetup) => !hasMeetupPassed(meetup, currentDate))
+
   useEffect(() => {
-    if (contract && api) fetchMeetups(api, contract, setMeetups, setFetchIsLoading)
+    if (contract && api) fetchMeetups(api, contract, setAllMeetups, setFetchIsLoading)
   }, [contract, api])
 
   useEffect(() => {
@@ -90,17 +139,24 @@ export default function AppPage() {
       const hash = window.location.hash.replace('#', '') as Tab
       const newTab = ['home', 'calendar', 'my-meetups'].includes(hash) ? hash : 'home'
       setCurrentTab(newTab)
-      if (newTab === 'home') setInstanceKey(Date.now().toString()) // Reset key on home tab
+      if (newTab === 'home') setInstanceKey(Date.now().toString())
     }
     updateTabFromHash()
     window.addEventListener('hashchange', updateTabFromHash)
     return () => window.removeEventListener('hashchange', updateTabFromHash)
   }, [])
 
+  const refetchMeetups = () => {
+    console.log('Refetching meetups...')
+    if (contract && api) fetchMeetups(api, contract, setAllMeetups, setFetchIsLoading)
+  }
+
   const handleViewChange = (view: 'home' | 'create' | { details: number }) => {
     if (view === 'home') {
-      router.push('/app')
-      setInstanceKey(Date.now().toString()) // Reset key when returning to home
+      setCurrentTab('home')
+      router.push('/app#home')
+      setInstanceKey(Date.now().toString())
+      refetchMeetups()
     } else if (view === 'create') {
       router.push('/create')
     } else {
@@ -111,7 +167,7 @@ export default function AppPage() {
   const handleTabChange = (tab: Tab) => {
     setCurrentTab(tab)
     router.push(`/app#${tab}`)
-    if (tab === 'home') setInstanceKey(Date.now().toString()) // Reset key on home tab switch
+    if (tab === 'home') setInstanceKey(Date.now().toString())
   }
 
   return (
@@ -136,8 +192,8 @@ export default function AppPage() {
               </div>
             ) : (
               <Home
-                key={`home-${instanceKey}`} // Force unmount/remount
-                meetups={meetups}
+                key={`home-${instanceKey}`}
+                meetups={activeMeetups}
                 onViewChange={handleViewChange}
                 fetchIsLoading={fetchIsLoading}
               />
@@ -146,12 +202,18 @@ export default function AppPage() {
         )}
         {currentTab === 'calendar' && (
           <MeetupCalendar
-            meetups={meetups}
+            meetups={activeMeetups}
             fetchIsLoading={fetchIsLoading}
             onViewChange={handleViewChange}
           />
         )}
-        {currentTab === 'my-meetups' && <MyMeetups onViewChange={handleViewChange} />}
+        {currentTab === 'my-meetups' && (
+          <MyMeetups
+            meetups={allMeetups}
+            onViewChange={handleViewChange}
+            refetchMeetups={refetchMeetups}
+          />
+        )}
       </main>
       <footer className="bg-white p-6 text-center text-sm text-gray-600 shadow-inner">
         © 2025 MeetupChain. Powered by xAI & Polkadot.

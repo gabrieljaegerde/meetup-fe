@@ -20,7 +20,7 @@ export const TopBar: React.FC<TopBarProps> = ({ activeTab, onTabChange }) => {
     return (
         <header className="sticky top-0 z-10 flex items-center justify-between bg-white p-4 shadow">
             <Link href="/" className="font-mono text-2xl font-bold text-gray-800">
-                MeetupChain
+                MeetDot
             </Link>
             <div className="flex items-center gap-4">
                 <nav className="flex gap-2">

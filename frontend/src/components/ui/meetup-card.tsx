@@ -33,30 +33,42 @@ export const MeetupCard: React.FC<MeetupCardProps> = ({
     const flags = [isFull && 'Full', isSoon && 'Soon', isClosest && 'Closest', isPop && 'Popular', isLow && 'Low'].filter(Boolean)
     const flagText = flags.length > 0 ? flags.join(' & ') : null
 
-    // Timezone handling
+    // Timestamp is in UTC milliseconds from the contract
     const eventDate = new Date(meetup.timestamp)
+
+    // Main display time: Convert UTC timestamp to user's timezone for online, or meetup's timezone for in-person
     const displayTime =
         meetup.locationType === 'Online'
-            ? toZonedTime(eventDate, userTimezone) // Convert UTC to user's timezone
-            : eventDate // In-person uses local event time
-    const displayTimezone = meetup.locationType === 'Online' ? userTimezone : meetup.timezone || 'UTC'
-    const dateStr = format(displayTime, 'MMM d, yyyy h:mm a') + ` (${displayTimezone})`
+            ? format(toZonedTime(eventDate, userTimezone), 'MMM d, yyyy h:mm a')
+            : format(toZonedTime(eventDate, meetup.timezone || 'UTC'), 'MMM d, yyyy h:mm a')
+    const displayTimezone =
+        meetup.locationType === 'Online' ? userTimezone : meetup.timezone || 'UTC'
 
-    // Countdown for events within 2 days
+    // UTC time: Use raw JS to ensure correct UTC display
+    const utcTime = new Date(meetup.timestamp).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        timeZone: 'UTC',
+    })
+    console.log('utcTime (JS):', utcTime)
+
+    const dateStr = `${displayTime} (${displayTimezone})`
+
     const twoDaysInMs = 48 * 60 * 60 * 1000
     const isWithinTwoDays = meetup.timestamp > Date.now() && meetup.timestamp <= Date.now() + twoDaysInMs
     const countdown = isWithinTwoDays ? formatCountdown(meetup.timestamp, Date.now()) : null
 
-    // Shorten coordinates for in-person events if lat/long format
     const isLatLong = meetup.locationType === 'InPerson' && meetup.location.match(/^-?\d+\.\d+,\s?-?\d+\.\d+$/)
     const [lat, long] = isLatLong ? meetup.location.split(',').map((coord) => parseFloat(coord.trim())) : [null, null]
     const shortLat = lat?.toFixed(3)
     const shortLong = long?.toFixed(3)
     const displayLocation = isLatLong ? `${shortLat}, ${shortLong}` : meetup.location
 
-    const descriptionSnippet = meetup.description.length > 60
-        ? meetup.description.substring(0, 60) + '...'
-        : meetup.description
+    const descriptionSnippet = meetup.description.length > 60 ? meetup.description.substring(0, 60) + '...' : meetup.description
 
     const getCardStyles = () =>
         cn(
@@ -135,26 +147,23 @@ export const MeetupCard: React.FC<MeetupCardProps> = ({
                 </div>
                 <p className="text-sm text-gray-700 line-clamp-2 mb-3">{descriptionSnippet}</p>
                 <div className="space-y-1 text-sm text-gray-700 flex-1">
-                    <p><span className="font-semibold text-gray-900">Date:</span> {dateStr}</p>
+                    <p>
+                        <span className="font-semibold text-gray-900">Date:</span> {dateStr}
+                        {meetup.locationType === 'Online' && <span className="block text-xs text-gray-500">({utcTime} UTC)</span>}
+                    </p>
                     {countdown && (
-                        <p><span className="font-semibold text-gray-900">Starts in:</span> {countdown}</p>
+                        <p>
+                            <span className="font-semibold text-gray-900">Starts in:</span> {countdown}
+                        </p>
                     )}
                     <p>
                         <span className="font-semibold text-gray-900">Location:</span>{' '}
                         {meetup.locationType === 'Online' ? (
-                            <a
-                                href={meetup.location}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-indigo-600 hover:underline"
-                            >
+                            <a href={meetup.location} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">
                                 {meetup.location || 'TBA'}
                             </a>
                         ) : isLatLong ? (
-                            <span
-                                className="text-green-600 hover:underline cursor-pointer"
-                                onClick={handleLocationClick}
-                            >
+                            <span className="text-green-600 hover:underline cursor-pointer" onClick={handleLocationClick}>
                                 {displayLocation}
                             </span>
                         ) : (
@@ -162,11 +171,19 @@ export const MeetupCard: React.FC<MeetupCardProps> = ({
                         )}
                     </p>
                     {meetup.distance && meetup.distance !== Infinity && (
-                        <p><span className="font-semibold text-gray-900">Distance:</span> {meetup.distance.toFixed(1)} km</p>
+                        <p>
+                            <span className="font-semibold text-gray-900">Distance:</span> {meetup.distance.toFixed(1)} km
+                        </p>
                     )}
-                    <p><span className="font-semibold text-gray-900">Price:</span> {formatPrice(meetup.price, decimals, tokenSymbol)}</p>
-                    <p><span className="font-semibold text-gray-900">Attendees:</span> {meetup.attendees.length}/{meetup.maxAttendees}</p>
-                    <p><span className="font-semibold text-gray-900">Host:</span> {meetup.host.slice(0, 6)}...{meetup.host.slice(-4)}</p>
+                    <p>
+                        <span className="font-semibold text-gray-900">Price:</span> {formatPrice(meetup.price, decimals, tokenSymbol)}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-gray-900">Attendees:</span> {meetup.attendees.length}/{meetup.maxAttendees}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-gray-900">Host:</span> {meetup.host.slice(0, 6)}...{meetup.host.slice(-4)}
+                    </p>
                 </div>
                 <Button
                     onClick={() => onViewChange({ details: meetup.id })}
